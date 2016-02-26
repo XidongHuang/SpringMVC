@@ -8,6 +8,10 @@
 </head>
 <body>
 
+
+
+
+
 	<a href="helloworld">Hello World</a>
 	<br>
 	<br>
@@ -50,5 +54,27 @@
 		<input type="hidden" name="_method" value="PUT" /> <input
 			type="submit" value="TestRest PUT" />
 	</form>
+	<br>
+	<br>
+	<a href="spingmvc/testRequestParam?username=tony&age=11">Test
+		RequestParam</a>
+	<br>
+	<br>
+	<a href="spingmvc/testRequestHeader">Test testRequestHeader</a>
+	<br>
+	<br>
+	<a href="spingmvc/testCookieValue">Test CookieValue</a>
+	<br>
+	<br>
+	<form action="spingmvc/testPojo" method="post">
+		username: <input type="text" name="username" /> <br> password: <input
+			type="password" name="password" /> <br> email: <input
+			type="text" name="email" /> <br> age: <input type="text"
+			name="age" /> <br> city: <input type="text" name="address.city" />
+		<br> province: <input type="text" name="address.province" /> <br>
+		<input type="submit" value="Submit">
+
+	</form>
+
 </body>
 </html>

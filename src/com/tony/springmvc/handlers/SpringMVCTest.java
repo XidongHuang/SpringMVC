@@ -1,9 +1,14 @@
 package com.tony.springmvc.handlers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.tony.springmvc.entities.User;
 
 @RequestMapping("/spingmvc")
 @Controller
@@ -12,24 +17,84 @@ public class SpringMVCTest {
 	private static final String SUCCESS = "success";
 
 	/**
-	 * Rest styple URL
-	 * 1. Take "CRUD" for example:
-	 * Add: /order POST
-	 * Modify: /order/1 PUT		update?id=1
-	 * Gain: /order/1 GET		get?id=1
-	 * Delete: /order/1 DELETE	delete?id=1
+	 * SpringMVC can assign values in corresponding POJO
+	 * also with cascade attributes
 	 * 
-	 * How to send "PUT", "DELETE" requests?
-	 * 1. Need to configure "HiddenHttpMethodFilter"
-	 * 2. Need to send "POST" request
-	 * 3. Need to send "POST" request with a Hidden attribute: name="_method", value="DELETE" or "PUT"
-	 * 
-	 * In the target method of SpringMVC, how to get "id"?
-	 * Use @PathVariable annotation
-	 * 
+	 * @param user
 	 * @return
 	 */
 	
+	@RequestMapping("/testPojo")
+	public String testPojo(User user) {
+		System.out.println("testPojo: " + user);
+
+		return SUCCESS;
+	}
+
+	/**
+	 * 
+	 * @CookieValue: mapping on Cookie value. Similar with @RequestParam
+	 * 
+	 * @param sessionId
+	 * @return
+	 */
+
+	@RequestMapping("/testCookieValue")
+	public String testCookieValue(@CookieValue(value = "JSESSIONID") String sessionId) {
+
+		System.out.println("testCookieValue: sessionId: " + sessionId);
+		return SUCCESS;
+	}
+
+	/**
+	 * Similar with @RequestParam
+	 * 
+	 * 
+	 * @param al
+	 * @return
+	 */
+	@RequestMapping("/testRequestHeader")
+	public String testRequestHeader(@RequestHeader(value = "Accept-Language") String al) {
+
+		System.out.println("testRequestHeader, Accept-Language: " + al);
+
+		return SUCCESS;
+
+	}
+
+	/**
+	 * @RequestParam for mapping parameters value: the name of parameters
+	 *               required: The parameter is required or not. Default value
+	 *               is "true" defaultValue: Setting parameters' default value
+	 * 
+	 * @param un
+	 * @param age
+	 * @return
+	 */
+	@RequestMapping(value = "/testRequestParam")
+	public String testRequestParam(@RequestParam(value = "username") String un,
+			@RequestParam(value = "age", required = false, defaultValue = "0") int age) {
+		System.out.println("testRequestParam, username:" + un + ", age: " + age);
+
+		return SUCCESS;
+	}
+
+	/**
+	 * Rest styple URL 1. Take "CRUD" for example: Add: /order POST Modify:
+	 * /order/1 PUT update?id=1 Gain: /order/1 GET get?id=1 Delete: /order/1
+	 * DELETE delete?id=1
+	 * 
+	 * How to send "PUT", "DELETE" requests? 1. Need to configure
+	 * "HiddenHttpMethodFilter" 2. Need to send "POST" request 3. Need to send
+	 * "POST" request with a Hidden attribute: name="_method", value="DELETE" or
+	 * "PUT"
+	 * 
+	 * In the target method of SpringMVC, how to get "id"? Use @PathVariable
+	 * annotation
+	 * 
+	 * @return
+	 */
+
 	@RequestMapping(value = "/testRest", method = RequestMethod.POST)
 	private String testRest() {
 
