@@ -75,6 +75,36 @@
 		<input type="submit" value="Submit">
 
 	</form>
-
+	
+	<br>
+	<br>
+	<a href="spingmvc/testServletAPI">Test ServletAPI</a>
+	<br>
+	<br>
+	<a href="spingmvc/testModelAndView">Test ModelAndView</a>
+	<br>
+	<br>
+	<a href="spingmvc/testMap">Test Map</a>
+	<br>
+	<br>
+	<a href="spingmvc/testSessionAttributes">Test SessionAttributes</a>
+	<br>
+	<br>
+	<!-- 
+		Modify action:
+		1. Original data: 1, Tom, 123456, tom@gmail.com, 12
+		2. Password cannot be changed
+		3. Form re-show, directly change in the form
+	-->
+	<form action="spingmvc/testModelAttribute" method="post">
+		<input type="hidden" name="id" value="1">
+		username: <input type="text" name="username" value="Tom"/>
+		<br>
+		email:<input type="text" name="email" value="tom@gmail.com"/>
+		<br>
+		age: <input type="text" name="age" value="12"/>
+		<br>
+		<input type="submit" value="Submit"/>
+	</form>
 </body>
 </html>

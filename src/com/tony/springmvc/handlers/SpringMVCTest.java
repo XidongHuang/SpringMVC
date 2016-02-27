@@ -1,21 +1,151 @@
 package com.tony.springmvc.handlers;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.tony.springmvc.entities.User;
 
+//@SessionAttributes(value={"user"}, types={String.class})
 @RequestMapping("/spingmvc")
 @Controller
 public class SpringMVCTest {
 
 	private static final String SUCCESS = "success";
 
+	
+	/**
+	 * If a method is marked "@ModelAttribute", then SpringMVC will invoke it before every target method
+	 * 
+	 * 
+	 * @param id
+	 * @param map
+	 */
+	@ModelAttribute
+	public void getUser(@RequestParam(value="id", required=false) Integer id, Map<String, Object> map){
+		if(id != null){
+			System.out.println("modelAttribute method");
+			User user = new User(1, "Tom", "123456", "tom@gmail.com", 12);
+			System.out.println("Get an Object from database: " + user);
+			map.put("user", user);
+		}
+		
+		
+	}
+	
+	/**
+	 * Process details:
+	 * 1. Execute @ModelAttribute annotation method: Take object from data base, put object into Map. Key: user
+	 * 2. SpringMVC take User object from Map, and assign parameters of form to User object
+	 * 3. SpringMVC transfer the object to target method as arguments
+	 * 
+	 * notice: In @ModelAttribute method, the "key" in the map has to same the argument's name (lower-case for first letter) in target method
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping("/testModelAttribute")
+	public String testModelAttribute(@ModelAttribute("user") User user){
+		
+		System.out.println("Modify: "+ user );
+		
+		
+		return SUCCESS;
+	}
+	
+	
+	/**
+	 * @SessionAttributes can a object into session attribute by setting its name, 
+	 * also can specific the class type to do that (notice: the Annotation just can be set in on the top of class) 
+	 * 
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("/testSessionAttributes")
+	public String testSessionAttributes(Map<String, Object> map){
+		
+		User user  = new User("Tom", "123456","Tom@gmail.com",15);
+		map.put("user", user);
+		map.put("school","Tony");
+		
+		return SUCCESS;
+	}
+	
+	
+	
+	/**
+	 * 
+	 * Target method can add Map type(or Model or ModelMap types)
+	 * 
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("/testMap")
+	public String testMap(Map<String, Object> map){
+		System.out.println(map.getClass().getName());
+		map.put("names", Arrays.asList("Tom","Jerry", "Mike"));
+		
+		
+		return SUCCESS;
+	}
+	
+	
+	
+	/**
+	 * The return value of target method can be ModelAndView.
+	 * It includes model and view information
+	 * SpringMVC will put ModelAndView's model data into request object
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/testModelAndView")
+	public ModelAndView testModelAndView(){
+		
+		String viewName = SUCCESS;
+		ModelAndView modelAndView = new ModelAndView(viewName);
+		
+		//Add model data into ModelAndView
+		modelAndView.addObject("time", new Date());
+		
+		return modelAndView;
+	}
+	
+	/**
+	 * SpringMVC supports original APIs to be arguments:
+	 * 
+	 * HttpServletRequest, HttpServletResponse, HttpSession
+	 * java.security.Principal, Local, InputStream, OutputStream, Reader, Writer
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException 
+	 */
+	@RequestMapping("/testServletAPI")
+	public void testServletAPI(HttpServletRequest request, HttpServletResponse response, Writer out) throws IOException{
+		
+		System.out.println("testServletAPI: " + request +", " + response);
+		out.write("Hello SpringMVC");
+		
+//		return SUCCESS;
+	}
+	
+	
 	/**
 	 * SpringMVC can assign values in corresponding POJO
 	 * also with cascade attributes
