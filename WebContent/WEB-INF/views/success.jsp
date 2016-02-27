@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -10,19 +11,23 @@
 	<h4>Success Page</h4>
 	time:${requestScope.time }
 	<br>
+	<br> names: ${requestScope.names }
 	<br>
-	names: ${requestScope.names }
+	<br> Request User: ${requestScope.user }
 	<br>
+	<br> Session User: ${sessionScope.user }
 	<br>
-	Request User: ${requestScope.user }
+	<br> Request School: ${requestScope.school }
 	<br>
+	<br> Session School: ${sessionScope.school }
 	<br>
-	Session User: ${sessionScope.user }
+	<br> abc user: ${requestScope.abc }
 	<br>
+	<br> user user: ${requestScope.user }
 	<br>
-	Request School: ${requestScope.school }
+	<br> 
+	<fmt:message key="i18n.username"></fmt:message>
 	<br>
-	<br>
-	Session School: ${sessionScope.school }
+	<br> <fmt:message key="i18n.password"></fmt:message>
 </body>
 </html>

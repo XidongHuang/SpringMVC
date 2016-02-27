@@ -22,18 +22,43 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tony.springmvc.entities.User;
 
-//@SessionAttributes(value={"user"}, types={String.class})
+@SessionAttributes(value={"user"}, types={String.class})
 @RequestMapping("/spingmvc")
 @Controller
 public class SpringMVCTest {
 
 	private static final String SUCCESS = "success";
 
+	@RequestMapping("/testRedirect")
+	private String testRedirect(){
+		System.out.println("testRedirect");
+		
+		return "redirect:/index.jsp";
+	}
+	
+	@RequestMapping("/testView")
+	public String testView(){
+		
+		System.out.println("testView");
+		
+		return "helloView";
+	}
+	
+	
+	@RequestMapping("/testViewAndViewResolver")
+	public String testViewAndViewResolver(){
+		
+		System.out.println("testViewAndViewResolver");
+		
+		return SUCCESS;
+	}
+	
 	
 	/**
-	 * If a method is marked "@ModelAttribute", then SpringMVC will invoke it before every target method
-	 * 
-	 * 
+	 * 1. If a method is marked "@ModelAttribute", then SpringMVC will invoke it before every target method
+	 * 2. @ModelAttribute also can be used in target method's POJO arguments, its "value" will be:
+	 * a) SpringMVC will use its "value" for searching the right object in implicitModel, if it exists then will pass into the target method's argument
+	 * b) SpringMVC put "POJO" object into request, and the object's key is the "value"
 	 * @param id
 	 * @param map
 	 */
@@ -60,7 +85,7 @@ public class SpringMVCTest {
 	 * @return
 	 */
 	@RequestMapping("/testModelAttribute")
-	public String testModelAttribute(@ModelAttribute("user") User user){
+	public String testModelAttribute(User user){
 		
 		System.out.println("Modify: "+ user );
 		

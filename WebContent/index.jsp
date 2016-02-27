@@ -106,5 +106,12 @@
 		<br>
 		<input type="submit" value="Submit"/>
 	</form>
+	<br><br>
+	<a href="spingmvc/testViewAndViewResolver">Test ViewAndViewResolver</a>
+	<br><br>
+	<a href="spingmvc/testView">Test View</a>
+	<br><br>
+	<a href="spingmvc/testRedirect">test Redirect</a>
+	
 </body>
 </html>
